@@ -1,1 +1,1 @@
-web: gunicorn app:suggestion_server
+web: gunicorn suggestion_server:suggestion_server
