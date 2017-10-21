@@ -11,7 +11,9 @@ server and starts running it.
 `online_model.py` contains a pre-trained model that will run on the 
 historic orders of a user and the menu items of a restaurant.
 
-`fb` module contains firebase helper functions.
+`fb` module contains firebase helper functions. These do not actually
+directly access the firebase database; instead it uses the Node server
+backend for smart cashier which provides helper functions.
 
 `offline_model` module contains code for training the model.
 
