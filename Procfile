@@ -1,1 +1,1 @@
-web: python suggestion_server.py
+web: gunicorn app:suggestion_server
