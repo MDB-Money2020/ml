@@ -25,7 +25,8 @@ def retrieve_command():
         try:
             suggested_menu_ids = get_suggestion_items(user_id, restaurant_id)
             return json.dumps(suggested_menu_ids), status.HTTP_200_OK
-        except Exception:
+        except Exception as e:
+            suggestion_server_app.log_exception(e)
             return '', status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
