@@ -23,6 +23,7 @@ def retrieve_command():
         if not user_id or not restaurant_id:
             return '', status.HTTP_400_BAD_REQUEST
     except Exception as e:
+        # Exception in parsing request.
         suggestion_server_app.log_exception(e)
         return '', status.HTTP_400_BAD_REQUEST
 
@@ -30,6 +31,7 @@ def retrieve_command():
         suggested_menu_ids = get_suggestion_items(user_id, restaurant_id)
         return json.dumps(suggested_menu_ids), status.HTTP_200_OK
     except Exception as e:
+        # Exception in server.
         suggestion_server_app.log_exception(e)
         return '', status.HTTP_500_INTERNAL_SERVER_ERROR
 
@@ -51,5 +53,6 @@ def get_suggestion_items(user_id, restaurant_id):
 
 
 if __name__ == '__main__':
+    # Necessary for binding to flask port.
     port = int(os.environ.get('PORT', 33507))
     suggestion_server_app.run(port=port)
