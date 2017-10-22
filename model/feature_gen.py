@@ -4,7 +4,7 @@ from fb.firebase_functions import get_global_stats
 
 
 def construct_feature_vector(menu_item):
-    feature_vec = [menu_item.price, menu_item.carbs]
+    feature_vec = []
     feature_vec.append(menu_item.price)
     feature_vec.append(menu_item.carbs)
     feature_vec.append(menu_item.protein)

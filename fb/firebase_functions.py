@@ -35,7 +35,8 @@ def get_global_stats():
     """
     url_manager = urlopen(STAT_URL)
     stat_response = url_manager.read().decode('utf-8')
-    stat_dict = stat_response['result']
+    stat_json_response = json.loads(stat_response)
+    stat_dict = stat_json_response['result']
     stats = Stats.construct_from_dict(stat_dict)
     return stats
 
