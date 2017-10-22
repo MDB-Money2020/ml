@@ -8,7 +8,7 @@ USER_KEY = "userId"
 RESTAURANT_KEY = "restaurantId"
 
 
-def get_historic_orders(user_id):
+def get_historic_menu_items(user_id):
     """
     Retrieve list of MenuItems of a User.
     :param user_id: The User's uid.
