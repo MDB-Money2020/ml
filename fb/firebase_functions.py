@@ -1,11 +1,13 @@
-from fb.firebase_model_classes import MenuItem
+from fb.firebase_model_classes import MenuItem, Stats
 from urllib.parse import urlencode
 from urllib.request import urlopen
 import json
 
-MENU_ITEMS_URL = "http://money2020-app.herokuapp.com/menuitems/"
+BASE_URL = "http://money2020-app.herokuapp.com/"
+MENU_ITEMS_URL = BASE_URL + "menuitems/"
 USER_KEY = "userId"
 RESTAURANT_KEY = "restaurantId"
+STAT_URL = BASE_URL + "stats/"
 
 
 def get_historic_menu_items(user_id):
@@ -24,6 +26,18 @@ def get_menu_items_from_restaurant(restaurant_id):
     :return:              List of MenuItem objects.
     """
     return get_menu_items_from_url(MENU_ITEMS_URL, {RESTAURANT_KEY: restaurant_id})
+
+
+def get_global_stats():
+    """
+    Retrieve a dictionary of stats and return a stat object.
+    :return: Stat object.
+    """
+    url_manager = urlopen(STAT_URL)
+    stat_response = url_manager.read().decode('utf-8')
+    stat_dict = stat_response['result']
+    stats = Stats.construct_from_dict(stat_dict)
+    return stats
 
 
 def get_menu_items_from_url(url, query_params):
