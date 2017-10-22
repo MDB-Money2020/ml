@@ -22,8 +22,11 @@ def retrieve_command():
     if not user_id or not restaurant_id:
         return '', status.HTTP_400_BAD_REQUEST
     else:
-        suggested_menu_ids = get_suggestion_items(user_id, restaurant_id)
-        return json.dumps(suggested_menu_ids), status.HTTP_200_OK
+        try:
+            suggested_menu_ids = get_suggestion_items(user_id, restaurant_id)
+            return json.dumps(suggested_menu_ids), status.HTTP_200_OK
+        except Exception:
+            return '', status.HTTP_400_BAD_REQUEST
 
 
 def get_suggestion_items(user_id, restaurant_id):

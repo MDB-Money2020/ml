@@ -3,7 +3,7 @@ from urllib.parse import urlencode
 from urllib.request import urlopen
 import json
 
-MENU_ITEMS_URL = "http://money2020-app.herokuapp.com/"
+MENU_ITEMS_URL = "http://money2020-app.herokuapp.com/menuitems/"
 USER_KEY = "userId"
 RESTAURANT_KEY = "restaurantId"
 
