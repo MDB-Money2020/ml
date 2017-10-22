@@ -33,8 +33,8 @@ def get_global_stats():
     Retrieve a dictionary of stats and return a stat object.
     :return: Stat object.
     """
-    url_manager = urlopen(STAT_URL)
-    stat_response = url_manager.read().decode('utf-8')
+    raw_response = request_helper(STAT_URL)
+    stat_response = raw_response.decode('utf-8')
     stat_json_response = json.loads(stat_response)
     stat_dict = stat_json_response['result']
     stats = Stats.construct_from_dict(stat_dict)
@@ -49,9 +49,20 @@ def get_menu_items_from_url(url, query_params):
     :return:             List of Menu Item objects.
     """
     params = urlencode(query_params)
-    url_manager = urlopen(url + '?' + params)
-    json_array_response = url_manager.read().decode('utf-8')
+    raw_response = request_helper(url + '?' + params)
+    json_array_response = raw_response.decode('utf-8')
     menu_item_dict_array = json.loads(json_array_response)['result']
     menu_items = [MenuItem.construct_from_dict(menu_item_dict) for menu_item_dict in menu_item_dict_array]
     return menu_items
+
+
+def request_helper(url):
+    """
+    Return raw string response from a GET to url.
+    :param url: URL to hit.
+    :return:    Raw string response.
+    """
+    with urlopen(url) as f:
+        response = f.read()
+    return response
 
