@@ -17,17 +17,21 @@ def retrieve_command():
     2. restaurantId
     :return: jsonified array of menuIds.
     """
-    user_id = request.values.get('userId', None)
-    restaurant_id = request.values.get('restaurantId', None)
-    if not user_id or not restaurant_id:
+    try:
+        user_id = request.values.get('userId', None)
+        restaurant_id = request.values.get('restaurantId', None)
+        if not user_id or not restaurant_id:
+            return '', status.HTTP_400_BAD_REQUEST
+    except Exception as e:
+        suggestion_server_app.log_exception(e)
         return '', status.HTTP_400_BAD_REQUEST
-    else:
-        try:
-            suggested_menu_ids = get_suggestion_items(user_id, restaurant_id)
-            return json.dumps(suggested_menu_ids), status.HTTP_200_OK
-        except Exception as e:
-            suggestion_server_app.log_exception(e)
-            return '', status.HTTP_500_INTERNAL_SERVER_ERROR
+
+    try:
+        suggested_menu_ids = get_suggestion_items(user_id, restaurant_id)
+        return json.dumps(suggested_menu_ids), status.HTTP_200_OK
+    except Exception as e:
+        suggestion_server_app.log_exception(e)
+        return '', status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 def get_suggestion_items(user_id, restaurant_id):
@@ -39,6 +43,8 @@ def get_suggestion_items(user_id, restaurant_id):
     """
     historic_orders = get_historic_menu_items(user_id)
     menu_items = get_menu_items_from_restaurant(restaurant_id)
+    print("num of historic orders:", len(historic_orders))
+    print("num of menu items:", len(menu_items))
     menu_items_indices = run_suggestion_model(historic_orders, menu_items)
     menu_item_ids = [menu_items[i].menu_item_id for i in menu_items_indices]
     return menu_item_ids
