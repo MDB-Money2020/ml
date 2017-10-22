@@ -1,4 +1,5 @@
-from heapq import heapify, heappush, heappop
+from heapq import heappush, heappop
+from random import sample
 
 
 class HeapNode:
@@ -14,6 +15,11 @@ class HeapNode:
 
 
 def select_top_suggestions(historical_orders, menu_items, affinity_measure, num_elem):
+    if len(historical_orders) == 0:
+        # Random sample.
+        print("Generating random sample for suggestions due to no historical data.")
+        return list(sample(range(0, len(menu_items)), num_elem))
+
     pq = []
     for index in range(len(menu_items)):
         heappush(pq, HeapNode(index, affinity_measure(menu_items[index], historical_orders)))
