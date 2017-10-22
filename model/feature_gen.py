@@ -13,3 +13,7 @@ def construct_feature_vector(menu_item):
 
 def construct_feature_vectors(items):
     return [construct_feature_vector(item) for item in items]
+
+
+def normalize_demean(vectors):
+    pass
