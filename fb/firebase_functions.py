@@ -1,27 +1,42 @@
-from fb.firebase_model_classes import Order
+from fb.firebase_model_classes import MenuItem
+from urllib.parse import urlencode
+from urllib.request import urlopen
+import json
+
+MENU_ITEMS_URL = "http://money2020-app.herokuapp.com/"
+USER_KEY = "userId"
+RESTAURANT_KEY = "restaurantId"
 
 
 def get_historic_orders(user_id):
     """
-    Retrieve list of Orders of a User.
+    Retrieve list of MenuItems of a User.
     :param user_id: The User's uid.
-    :return:        list of Order objects.
+    :return:        list of MenuItem objects.
     """
-    # TODO
-    order1 = Order('order_id!', 'lulz')
-    order2 = Order('order_id2!', 'lulz2')
-    order3 = Order('order_id3!', 'lulz3')
-    order4 = Order('order_id4!', 'lulz4')
-    return [order1, order2, order3, order4]
+    return get_menu_items_from_url(MENU_ITEMS_URL, {USER_KEY: user_id})
 
 
 def get_menu_items_from_restaurant(restaurant_id):
     """
-    Retrieve list of Orders of a Restaurant.
+    Retrieve list of Menu Items of a Restaurant.
     :param restaurant_id: ID of the restaurant.
-    :return:              List of Order objects.
+    :return:              List of MenuItem objects.
     """
-    order1 = Order('order_idsss!', 'lulz')
-    order2 = Order('order_idsssss2!', 'lulz2')
-    order3 = Order('order_idss3!', 'lulz3')
-    return [order1, order2, order3]
+    return get_menu_items_from_url(MENU_ITEMS_URL, {RESTAURANT_KEY: restaurant_id})
+
+
+def get_menu_items_from_url(url, query_params):
+    """
+    Get a list of menu items from a url with query parameters.
+    :param url:          URL that represents an API endpoint to get menu items.
+    :param query_params: Query parameters to filter.
+    :return:             List of Menu Item objects.
+    """
+    params = urlencode(query_params)
+    url_manager = urlopen(url + '?' + params)
+    json_array_response = url_manager.read()
+    menu_item_dict_array = json.loads(json_array_response)
+    menu_items = [MenuItem.construct_from_dict(menu_item_dict) for menu_item_dict in menu_item_dict_array]
+    return menu_items
+
