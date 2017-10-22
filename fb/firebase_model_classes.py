@@ -16,7 +16,7 @@ class MenuItem:
 
     @classmethod
     def construct_from_dict(cls, menu_item_dict):
-        return MenuItem(menu_item_dict.menu_item_id, menu_item_dict.title, menu_item_dict.category,
-                        menu_item_dict.description, menu_item_dict.image_url, menu_item_dict.price,
-                        menu_item_dict.restaurant_id, menu_item_dict.carbs, menu_item_dict.protein,
-                        menu_item_dict.fat, menu_item_dict.calories, menu_item_dict.ingredients)
+        return MenuItem(menu_item_dict['_key'], menu_item_dict['title'], menu_item_dict['category'],
+                        menu_item_dict['description'], menu_item_dict['imageUrl'], menu_item_dict['price'],
+                        menu_item_dict['restaurantId'], menu_item_dict['carbs'], menu_item_dict['protein'],
+                        menu_item_dict['fat'], menu_item_dict['calories'], menu_item_dict['ingredients'])

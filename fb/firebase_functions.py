@@ -35,8 +35,8 @@ def get_menu_items_from_url(url, query_params):
     """
     params = urlencode(query_params)
     url_manager = urlopen(url + '?' + params)
-    json_array_response = url_manager.read()
-    menu_item_dict_array = json.loads(json_array_response)
+    json_array_response = url_manager.read().decode('utf-8')
+    menu_item_dict_array = json.loads(json_array_response)['result']
     menu_items = [MenuItem.construct_from_dict(menu_item_dict) for menu_item_dict in menu_item_dict_array]
     return menu_items
 
