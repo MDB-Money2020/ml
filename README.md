@@ -1,8 +1,12 @@
-# ml
+# Suggestions 
 Suggestions feature implementation.
 
 ### How it Works:
-TODO
+The current version is very simple. We take our feature space, demean,
+ and normalize. In this space, we compute an average cosine similarity 
+ of menu item vs historical orders of a user. We take the argmax of 
+ these cosine similarity scores to determine the general closeness a 
+ user is with a certain menu item. Future iterations are possible.
 
 ### Structure
 The Flask server is located in `suggestion_server.py`. It sets up the 
